@@ -11,10 +11,17 @@ jobs:
   update-iptv:
     runs-on: ubuntu-latest
     
+    # 添加权限设置
+    permissions:
+      contents: write
+      
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+      with:
+        # 使用具有写入权限的token
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -28,10 +35,18 @@ jobs:
       run: |
         python iptv_collector.py
         
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
     - name: Commit and push changes
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        # 检查是否有文件需要提交
         git add all_channels.*
-        git diff --staged --quiet || git commit -m "Auto-update IPTV sources $(date +'%Y-%m-%d %H:%M')"
-        git push
+        if git diff --staged --quiet; then
+          echo "没有更改需要提交"
+        else
+          git commit -m "Auto-update IPTV sources $(date +'%Y-%m-%d %H:%M')"
+          git push
+        fi
