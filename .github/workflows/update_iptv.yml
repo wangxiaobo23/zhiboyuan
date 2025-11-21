@@ -11,7 +11,6 @@ jobs:
   update-iptv:
     runs-on: ubuntu-latest
     
-    # 添加权限设置
     permissions:
       contents: write
       
@@ -19,7 +18,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        # 使用具有写入权限的token
         token: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Set up Python
@@ -42,7 +40,6 @@ jobs:
         
     - name: Commit and push changes
       run: |
-        # 检查是否有文件需要提交
         git add all_channels.*
         if git diff --staged --quiet; then
           echo "没有更改需要提交"
