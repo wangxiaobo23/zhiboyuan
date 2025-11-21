@@ -2,33 +2,36 @@ name: Update IPTV Sources Daily
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天UTC时间0点（北京时间早上8点）运行
-  workflow_dispatch:       # 允许手动触发运行
+    - cron: '0 2 * * *'  # 每天UTC时间2点运行（北京时间10点）
+  workflow_dispatch:       # 允许手动触发
+  push:
+    branches: [ main ]
 
 jobs:
-  update-sources:
+  update-iptv:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
+      
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
-
+        
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-
+        
     - name: Run IPTV Collector
       run: |
         python iptv_collector.py
-
-    - name: Commit and push if changes
+        
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add combined_sources.*
-        git commit -m "Auto-update IPTV sources $(date +'%Y-%m-%d')" || exit 0
+        git add all_channels.*
+        git diff --staged --quiet || git commit -m "Auto-update IPTV sources $(date +'%Y-%m-%d %H:%M')"
         git push
