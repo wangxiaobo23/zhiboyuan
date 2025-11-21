@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 import os
 
 # ================== 配置区域（无需修改）==================
-SEARCH_URL = "http://tonkiang.us/"
+SEARCH_URL = "https://tonkiang.us/"
 TIMEOUT = 10  # 测速超时
 TARGET_CHANNELS = [
     "CCTV-1", "CCTV-2", "CCTV-3", "CCTV-4", "CCTV-5", "CCTV-5+", "CCTV-6",
