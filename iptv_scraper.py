@@ -123,4 +123,4 @@ async def main():
                 all_channels[channel] = selected
             else:
                 print(f"⚠️  {channel} 有效源不足 {MIN_LINKS_PER_CHANNEL} 个，跳过")
-            await page.wait_for_timeout(10
+            await page.wait_for_timeout(10)
