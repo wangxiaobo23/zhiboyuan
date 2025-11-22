@@ -12,27 +12,27 @@ TV_CHANNELS = {
     "香港台": ["香港TVB翡翠台", "香港ViuTV", "香港无线新闻台", "香港亚洲电视"]
 }
 
-# 搜索关键词映射（适配tonkiang.us搜索逻辑）
+# 强化搜索关键词（适配最新网站结构）
 SEARCH_KEYWORDS = {
-    "CCTV-1": "CCTV1 直播源",
-    "CCTV-2": "CCTV2 直播源",
-    "北京卫视": "北京卫视 直播 m3u8",
-    "东方卫视": "东方卫视 直播 高清",
-    "湖南卫视": "湖南卫视 直播源 稳定",
-    "凤凰卫视资讯台": "凤凰卫视资讯台 直播 m3u",
-    "凤凰卫视中文台": "凤凰卫视中文台 直播 源",
-    "香港TVB翡翠台": "TVB翡翠台 直播源",
-    "香港ViuTV": "ViuTV 直播 m3u8"
+    "CCTV-1": "CCTV1 高清直播源 m3u8",
+    "CCTV-2": "CCTV2 财经直播 m3u",
+    "北京卫视": "北京卫视 直播源 高清 稳定",
+    "东方卫视": "东方卫视 直播 m3u8 最新",
+    "湖南卫视": "湖南卫视 直播源 2025",
+    "凤凰卫视资讯台": "凤凰卫视资讯台 直播源 可用",
+    "凤凰卫视中文台": "凤凰卫视中文台 直播 m3u8",
+    "香港TVB翡翠台": "TVB翡翠台 直播源 香港",
+    "香港ViuTV": "ViuTV 直播源 高清"
 }
 
-# 补充默认关键词（未配置的频道自动使用“频道名+直播源”）
+# 补充默认关键词（未配置的频道自动使用“频道名+直播源+可用”）
 for category, channels in TV_CHANNELS.items():
     for channel in channels:
         if channel not in SEARCH_KEYWORDS:
-            SEARCH_KEYWORDS[channel] = f"{channel} 直播源"
+            SEARCH_KEYWORDS[channel] = f"{channel} 直播源 可用"
 
 def search_live_sources(channel):
-    """从tonkiang.us搜索直播源"""
+    """从tonkiang.us搜索直播源（优化正则匹配）"""
     url = f"https://tonkiang.us/search?q={requests.utils.quote(SEARCH_KEYWORDS[channel])}"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -40,10 +40,10 @@ def search_live_sources(channel):
     try:
         response = requests.get(url, headers=headers, timeout=30)
         response.encoding = response.apparent_encoding
-        # 提取m3u8/m3u直播源（正则匹配）
-        sources = re.findall(r'https?://[^\s<>"]+\.(m3u8|m3u)', response.text)
-        # 去重并限制数量（2-8个）
-        unique_sources = list(dict.fromkeys([src for src in sources if "http" in src]))[:8]
+        # 优化正则：匹配更灵活的直播源链接（含http/https，后缀m3u8/m3u）
+        sources = re.findall(r'(https?://[^\s<>"]+\.(m3u8|m3u))', response.text)
+        # 去重并提取链接（忽略正则分组）
+        unique_sources = list(dict.fromkeys([src[0] for src in sources if "http" in src[0]]))[:8]
         return unique_sources[:8] if len(unique_sources)>=2 else unique_sources + [""]*(2-len(unique_sources))
     except Exception as e:
         print*("[{channel}] 搜索失败：{str(e)}")
