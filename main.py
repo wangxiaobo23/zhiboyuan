@@ -1,6 +1,5 @@
 import requests
 import re
-import subprocess
 import time
 from datetime import datetime
 import os
@@ -47,7 +46,7 @@ def search_live_sources(channel):
         unique_sources = list(dict.fromkeys([src for src in sources if "http" in src]))[:8]
         return unique_sources[:8] if len(unique_sources)>=2 else unique_sources + [""]*(2-len(unique_sources))
     except Exception as e:
-        print(f"[{channel}] 搜索失败：{str(e)}")
+        print*("[{channel}] 搜索失败：{str(e)}")
         return [""]*2
 
 def test_source_speed(source):
@@ -64,11 +63,9 @@ def test_source_speed(source):
         return 99999
 
 def generate_files(all_sorted_sources):
-    """生成m3u和txt文件"""
-    # 生成文件名（含时间戳）
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    m3u_filename = f"tv_live_sources_{timestamp}.m3u"
-    txt_filename = f"tv_live_sources_{timestamp}.txt"
+    """生成m3u和txt文件（固定文件名，避免Git冲突）"""
+    m3u_filename = "tv_live_sources.m3u"
+    txt_filename = "tv_live_sources.txt"
 
     # 写入m3u文件（标准m3u格式）
     with open(m3u_filename, "w", encoding="utf-8") as f:
@@ -117,18 +114,7 @@ def main():
             all_sources[category][channel] = sorted_sources[:8]
 
     # 生成文件
-    m3u_file, txt_file = generate_files(all_sources)
-
-    # 上传文件到GitHub（通过git命令，依赖Actions配置）
-    try:
-        subprocess.run(["git", "config", "--global", "user.name", "GitHub Actions"], check=True)
-        subprocess.run(["git", "config", "--global", "user.email", "actions@github.com"], check=True)
-        subprocess.run(["git", "add", m3u_file, txt_file], check=True)
-        subprocess.run(["git", "commit", "-m", f"Update live sources {datetime.now().strftime('%Y%m%d_%H%M%S')}"], check=True)
-        subprocess.run(["git", "push"], check=True)
-        print("文件已上传到GitHub仓库")
-    except Exception as e:
-        print(f"文件上传失败：{str(e)}")
+    generate_files(all_sources)
 
 if __name__ == "__main__":
     main()
