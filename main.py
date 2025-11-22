@@ -1,4 +1,5 @@
 import requests
+import re
 import time
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -12,101 +13,98 @@ TV_CHANNELS = {
     "香港台": ["香港TVB翡翠台", "香港ViuTV", "香港无线新闻台", "香港亚洲电视"]
 }
 
-# 多组搜索关键词（提高匹配概率）
+# 手动验证有效的搜索关键词（与手动搜索完全一致）
 SEARCH_KEYWORDS = {
-    "CCTV-1": ["CCTV1 直播源", "央视一套 直播 m3u8", "CCTV1 HD 直播链接"],
-    "CCTV-2": ["CCTV2 财经 直播源", "央视二套 直播 m3u", "CCTV2 直播链接"],
-    "北京卫视": ["北京卫视 直播源", "BTV 直播 m3u8", "北京卫视 高清直播"],
-    "东方卫视": ["东方卫视 直播源", "Dragon TV 直播 m3u", "东方卫视 直播链接"],
-    "湖南卫视": ["湖南卫视 直播源", "Hunan TV 直播 m3u8", "芒果台 直播链接"],
-    "凤凰卫视资讯台": ["凤凰资讯台 直播源", "Phoenix Info News 直播 m3u", "凤凰资讯台 直播链接"],
-    "凤凰卫视中文台": ["凤凰中文台 直播源", "Phoenix Chinese 直播 m3u8", "凤凰中文台 直播链接"],
-    "香港TVB翡翠台": ["TVB翡翠台 直播源", "Jade TV 直播 m3u", "翡翠台 香港直播"],
-    "香港ViuTV": ["ViuTV 直播源", "Viu TV 直播 m3u8", "香港ViuTV 直播链接"]
+    "CCTV-1": ["CCTV1 直播源"],
+    "CCTV-2": ["CCTV2 直播源"],
+    "北京卫视": ["北京卫视 直播源"],
+    "东方卫视": ["东方卫视 直播源"],
+    "湖南卫视": ["湖南卫视 直播源"],
+    "凤凰卫视资讯台": ["凤凰卫视资讯台 直播源"],
+    "凤凰卫视中文台": ["凤凰卫视中文台 直播源"],
+    "香港TVB翡翠台": ["TVB翡翠台 直播源"],
+    "香港ViuTV": ["ViuTV 直播源"]
 }
 
-# 补充默认关键词（每组3个）
+# 补充默认关键词（与手动搜索逻辑一致）
 for category, channels in TV_CHANNELS.items():
     for channel in channels:
         if channel not in SEARCH_KEYWORDS:
-            SEARCH_KEYWORDS[channel] = [
-                f"{channel} 直播源",
-                f"{channel} 直播 m3u8",
-                f"{channel} 高清直播链接"
-            ]
+            SEARCH_KEYWORDS[channel] = [f"{channel} 直播源"]
 
-# 随机User-Agent池（绕过反爬）
+# 随机User-Agent池（模拟手动浏览器访问）
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/128.0.0.0",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
 ]
 
 def search_live_sources(channel):
-    """多关键词+多User-Agent采集，绕过反爬"""
+    """完全模拟手动搜索逻辑：单关键词+精准提取"""
     sources = []
-    # 遍历该频道的所有搜索关键词
-    for keyword in SEARCH_KEYWORDS[channel]:
-        url = f"https://tonkiang.us/search?q={requests.utils.quote(keyword)}"
-        headers = {
-            "User-Agent": random.choice(USER_AGENTS),
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Referer": "https://tonkiang.us/",
-            "Cache-Control": "no-cache"
-        }
-        try:
-            # 随机延迟（避免高频请求被封）
-            time.sleep(random.uniform(1, 3))
-            response = requests.get(url, headers=headers, timeout=30)
-            response.encoding = response.apparent_encoding
-            soup = BeautifulSoup(response.text, "html.parser")
-            
-            # 多维度提取链接（a标签、script标签、div标签）
-            # 1. 提取a标签href
-            for link in soup.find_all("a", href=True):
-                href = link["href"].strip()
-                if href.endswith((".m3u8", ".m3u")) and "http" in href and href not in sources:
-                    sources.append(href)
-            # 2. 提取script标签中的链接
-            for script in soup.find_all("script"):
-                script_text = script.text
-                if ".m3u8" in script_text or ".m3u" in script_text:
-                    links = re.findall(r'(https?://[^\s<>"]+\.(m3u8|m3u))', script_text)
-                    for link in links:
-                        if link[0] not in sources:
-                            sources.append(link[0])
-            # 3. 提取div标签中的链接
-            for div in soup.find_all("div", string=re.compile(r'https?://')):
-                div_text = div.text
-                links = re.findall(r'(https?://[^\s<>"]+\.(m3u8|m3u))', div_text)
-                for link in links:
-                    if link[0] not in sources:
-                        sources.append(link[0])
-        except Exception as e:
-            print(f"[{channel}] 关键词[{keyword}]搜索失败：{str(e)}")
-            continue
-        # 收集到8个源就停止（达到上限）
-        if len(sources) >= 8:
-            break
+    keyword = SEARCH_KEYWORDS[channel][0]  # 用与手动搜索一致的关键词
+    url = f"https://tonkiang.us/search?q={requests.utils.quote(keyword)}"
+    headers = {
+        "User-Agent": random.choice(USER_AGENTS),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Referer": "https://tonkiang.us/",
+        "Cache-Control": "no-cache"
+    }
+    
+    try:
+        # 模拟手动访问延迟
+        time.sleep(2)
+        response = requests.get(url, headers=headers, timeout=30)
+        response.encoding = response.apparent_encoding
+        soup = BeautifulSoup(response.text, "html.parser")
+        
+        # 关键优化：提取所有包含直播源的文本块，再匹配链接（手动搜索结果的常见位置）
+        all_text = soup.get_text(separator="\n", strip=True)
+        # 精准匹配m3u8/m3u链接（包含可能的参数，如?token=xxx）
+        link_pattern = r'(https?://[^\s<>"\'`]+?\.(m3u8|m3u)(\?[^\s<>"\'`]*)?)'
+        matched_links = re.findall(link_pattern, all_text, re.IGNORECASE)
+        
+        # 提取并去重
+        for link in matched_links:
+            full_link = link[0].strip()
+            if full_link not in sources and "http" in full_link:
+                sources.append(full_link)
+        
+        # 额外提取a标签中的链接（手动搜索结果的另一种常见位置）
+        for a_tag in soup.find_all("a", href=True):
+            href = a_tag["href"].strip()
+            if re.match(link_pattern, href, re.IGNORECASE) and href not in sources:
+                sources.append(href)
+    
+    except Exception as e:
+        print(f"[{channel}] 搜索失败：{str(e)}")
+    
     # 去重并限制数量（2-8个）
     unique_sources = list(dict.fromkeys(sources))[:8]
     return unique_sources[:8] if len(unique_sources)>=2 else unique_sources + [""]*(2-len(unique_sources))
 
 def test_source_speed(source):
-    """优化测速逻辑（允许重定向，延长超时）"""
+    """完全模拟手动播放验证逻辑"""
     if not source or "http" not in source:
         return 99999
     try:
         start_time = time.time()
-        # 改用GET请求（部分源不支持HEAD），增加超时到15秒
-        response = requests.get(source, timeout=15, allow_redirects=True, stream=True)
-        # 只读取前100字节验证连通性
-        response.iter_content(chunk_size=100).__next__()
+        # 模拟播放器的请求方式：带User-Agent，允许重定向，读取部分内容
+        headers = {"User-Agent": random.choice(USER_AGENTS)}
+        response = requests.get(
+            source, 
+            headers=headers,
+            timeout=20, 
+            allow_redirects=True, 
+            stream=True
+        )
+        # 读取前200字节验证是否能正常连接（手动播放的核心验证逻辑）
+        next(response.iter_content(chunk_size=200))
         delay = (time.time() - start_time) * 1000
         response.close()
-        return int(delay) if response.status_code in [200, 206] else 99999
-    except:
+        # 支持更多有效状态码（部分直播源返回206 Partial Content）
+        return int(delay) if response.status_code in [200, 206, 302] else 99999
+    except Exception as e:
+        print(f"[{source}] 测速失败：{str(e)}")
         return 99999
 
 def generate_files(all_sorted_sources):
@@ -114,7 +112,7 @@ def generate_files(all_sorted_sources):
     m3u_filename = "tv_live_sources.m3u"
     txt_filename = "tv_live_sources.txt"
 
-    # 写入m3u文件
+    # 写入m3u文件（播放器可直接识别）
     with open(m3u_filename, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
         for category, channels in all_sorted_sources.items():
@@ -124,7 +122,7 @@ def generate_files(all_sorted_sources):
                         f.write(f"#EXTINF:-1,{channel} (速度{delay}ms 第{idx}源)\n")
                         f.write(f"{source}\n")
 
-    # 写入txt文件
+    # 写入txt文件（易读格式）
     with open(txt_filename, "w", encoding="utf-8") as f:
         f.write(f"电视直播源汇总（生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}）\n")
         f.write("="*50 + "\n\n")
@@ -142,7 +140,7 @@ def generate_files(all_sorted_sources):
     return m3u_filename, txt_filename
 
 def main():
-    print("开始采集电视直播源...")
+    print("开始采集电视直播源（模拟手动搜索逻辑）...")
     all_sources = {}
 
     for category, channels in TV_CHANNELS.items():
@@ -153,7 +151,7 @@ def main():
             sources_with_speed = [(src, test_source_speed(src)) for src in sources]
             # 按速度排序（快到慢）
             sorted_sources = sorted([(s, d) for s, d in sources_with_speed if d < 99999], key=lambda x: x[1])
-            # 确保最少2个
+            # 确保最少2个源
             while len(sorted_sources) < 2:
                 sorted_sources.append(("", 99999))
             all_sources[category][channel] = sorted_sources[:8]
