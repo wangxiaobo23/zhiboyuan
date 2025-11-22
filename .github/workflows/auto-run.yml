@@ -1,0 +1,33 @@
+name: 定时采集电视直播源
+on:
+  # 定时执行（每天凌晨2点，UTC时间18点，可修改cron表达式）
+  schedule:
+    - cron: '0 18 * * *'
+  # 手动触发（可在GitHub仓库Actions页面点击运行）
+  workflow_dispatch:
+
+jobs:
+  collect-tv-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+
+      - name: 设置Python环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'  # 稳定版本，避免兼容性问题
+
+      - name: 安装依赖包
+        run: pip install -r requirements.txt
+
+      - name: 运行采集脚本
+        run: python main.py
+
+      - name: 提交文件到仓库
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Auto update TV live sources $(date +'%Y%m%d_%H%M%S')" || echo "没有新文件需要提交"
+          git push
