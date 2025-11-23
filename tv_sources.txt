@@ -1,27 +1,3 @@
-# 电视直播源更新于: 2025-11-23 10:25:01
+# 电视直播源更新于: 2025-11-23 10:35:22
 # 格式: 频道名称,直播源URL
-
-# CCTV1
-http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8
-https://cctvcnch5c.v.wscdns.com/live/cctv1_2/playlist.m3u8
-
-# CCTV5
-http://ivi.bupt.edu.cn/hls/cctv5hd.m3u8
-https://cctvcnch5c.v.wscdns.com/live/cctv5_2/playlist.m3u8
-
-# 湖南卫视
-http://ivi.bupt.edu.cn/hls/hunanhd.m3u8
-https://hnws.tvpal.com/hunanstv/04.m3u8
-
-# 浙江卫视
-http://ivi.bupt.edu.cn/hls/zhejianghd.m3u8
-
-# 江苏卫视
-http://ivi.bupt.edu.cn/hls/jiangsuhd.m3u8
-
-# 北京卫视
-http://ivi.bupt.edu.cn/hls/beijinghd.m3u8
-
-# 东方卫视
-http://ivi.bupt.edu.cn/hls/dongfanghd.m3u8
 
