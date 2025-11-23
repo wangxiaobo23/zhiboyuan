@@ -1,11 +1,77 @@
 # 央视直播源
-# 更新于: 2025-11-23 10:25:01
+# 更新于: 2025-11-23 11:04:05
 
 # CCTV1
 http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8
 https://cctvcnch5c.v.wscdns.com/live/cctv1_2/playlist.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225496/index.m3u8
+http://39.134.65.171/PLTV/88888888/224/3221225496/index.m3u8
+
+# CCTV2
+http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225497/index.m3u8
+
+# CCTV3
+http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225498/index.m3u8
+
+# CCTV4
+http://ivi.bupt.edu.cn/hls/cctv4hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225499/index.m3u8
 
 # CCTV5
 http://ivi.bupt.edu.cn/hls/cctv5hd.m3u8
-https://cctvcnch5c.v.wscdns.com/live/cctv5_2/playlist.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225500/index.m3u8
+
+# CCTV5+
+http://ivi.bupt.edu.cn/hls/cctv5phd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225501/index.m3u8
+
+# CCTV6
+http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225502/index.m3u8
+
+# CCTV7
+http://ivi.bupt.edu.cn/hls/cctv7hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225503/index.m3u8
+
+# CCTV8
+http://ivi.bupt.edu.cn/hls/cctv8hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225504/index.m3u8
+
+# CCTV9
+http://ivi.bupt.edu.cn/hls/cctv9hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225505/index.m3u8
+
+# CCTV10
+http://ivi.bupt.edu.cn/hls/cctv10hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225506/index.m3u8
+
+# CCTV11
+http://ivi.bupt.edu.cn/hls/cctv11hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225507/index.m3u8
+
+# CCTV12
+http://ivi.bupt.edu.cn/hls/cctv12hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225508/index.m3u8
+
+# CCTV13
+http://ivi.bupt.edu.cn/hls/cctv13hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225514/index.m3u8
+
+# CCTV14
+http://ivi.bupt.edu.cn/hls/cctv14hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225515/index.m3u8
+
+# CCTV15
+http://ivi.bupt.edu.cn/hls/cctv15hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225516/index.m3u8
+
+# CCTV16
+http://ivi.bupt.edu.cn/hls/cctv16hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225517/index.m3u8
+
+# CCTV17
+http://ivi.bupt.edu.cn/hls/cctv17hd.m3u8
+http://39.134.66.66/PLTV/88888888/224/3221225518/index.m3u8
 

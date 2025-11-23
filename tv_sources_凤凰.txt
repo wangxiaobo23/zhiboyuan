@@ -1,0 +1,17 @@
+# 凤凰直播源
+# 更新于: 2025-11-23 11:04:05
+
+# 凤凰中文台
+http://liveali.ifeng.com/live/FHZW.m3u8
+http://223.110.243.136/PLTV/3/224/3221227545/index.m3u8
+http://223.110.243.155/PLTV/3/224/3221227545/index.m3u8
+
+# 凤凰资讯台
+http://liveali.ifeng.com/live/FHZX.m3u8
+http://223.110.243.136/PLTV/3/224/3221227544/index.m3u8
+http://223.110.243.155/PLTV/3/224/3221227544/index.m3u8
+
+# 凤凰香港台
+http://liveali.ifeng.com/live/FHGX.m3u8
+http://223.110.243.136/PLTV/3/224/3221227546/index.m3u8
+

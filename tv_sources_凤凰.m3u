@@ -1,0 +1,17 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="凤凰中文台" tvg-name="凤凰中文台" group-title="凤凰",凤凰中文台 源1
+http://liveali.ifeng.com/live/FHZW.m3u8
+#EXTINF:-1 tvg-id="凤凰中文台" tvg-name="凤凰中文台" group-title="凤凰",凤凰中文台 源2
+http://223.110.243.136/PLTV/3/224/3221227545/index.m3u8
+#EXTINF:-1 tvg-id="凤凰中文台" tvg-name="凤凰中文台" group-title="凤凰",凤凰中文台 源3
+http://223.110.243.155/PLTV/3/224/3221227545/index.m3u8
+#EXTINF:-1 tvg-id="凤凰资讯台" tvg-name="凤凰资讯台" group-title="凤凰",凤凰资讯台 源1
+http://liveali.ifeng.com/live/FHZX.m3u8
+#EXTINF:-1 tvg-id="凤凰资讯台" tvg-name="凤凰资讯台" group-title="凤凰",凤凰资讯台 源2
+http://223.110.243.136/PLTV/3/224/3221227544/index.m3u8
+#EXTINF:-1 tvg-id="凤凰资讯台" tvg-name="凤凰资讯台" group-title="凤凰",凤凰资讯台 源3
+http://223.110.243.155/PLTV/3/224/3221227544/index.m3u8
+#EXTINF:-1 tvg-id="凤凰香港台" tvg-name="凤凰香港台" group-title="凤凰",凤凰香港台 源1
+http://liveali.ifeng.com/live/FHGX.m3u8
+#EXTINF:-1 tvg-id="凤凰香港台" tvg-name="凤凰香港台" group-title="凤凰",凤凰香港台 源2
+http://223.110.243.136/PLTV/3/224/3221227546/index.m3u8
