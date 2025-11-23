@@ -1,0 +1,13 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="湖南卫视" tvg-name="湖南卫视" group-title="卫视",湖南卫视 源1
+http://ivi.bupt.edu.cn/hls/hunanhd.m3u8
+#EXTINF:-1 tvg-id="湖南卫视" tvg-name="湖南卫视" group-title="卫视",湖南卫视 源2
+https://hnws.tvpal.com/hunanstv/04.m3u8
+#EXTINF:-1 tvg-id="浙江卫视" tvg-name="浙江卫视" group-title="卫视",浙江卫视 源1
+http://ivi.bupt.edu.cn/hls/zhejianghd.m3u8
+#EXTINF:-1 tvg-id="江苏卫视" tvg-name="江苏卫视" group-title="卫视",江苏卫视 源1
+http://ivi.bupt.edu.cn/hls/jiangsuhd.m3u8
+#EXTINF:-1 tvg-id="北京卫视" tvg-name="北京卫视" group-title="卫视",北京卫视 源1
+http://ivi.bupt.edu.cn/hls/beijinghd.m3u8
+#EXTINF:-1 tvg-id="东方卫视" tvg-name="东方卫视" group-title="卫视",东方卫视 源1
+http://ivi.bupt.edu.cn/hls/dongfanghd.m3u8
