@@ -1,0 +1,40 @@
+{
+  "backup_sources": {
+    "CCTV1": [
+      "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8",
+      "https://cctvcnch5c.v.wscdns.com/live/cctv1_2/playlist.m3u8"
+    ],
+    "CCTV2": [
+      "http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8"
+    ],
+    "CCTV5": [
+      "http://ivi.bupt.edu.cn/hls/cctv5hd.m3u8",
+      "https://cctvcnch5c.v.wscdns.com/live/cctv5_2/playlist.m3u8"
+    ],
+    "CCTV13": [
+      "http://ivi.bupt.edu.cn/hls/cctv13hd.m3u8"
+    ],
+    "湖南卫视": [
+      "http://ivi.bupt.edu.cn/hls/hunanhd.m3u8",
+      "https://hnws.tvpal.com/hunanstv/04.m3u8"
+    ],
+    "浙江卫视": [
+      "http://ivi.bupt.edu.cn/hls/zhejianghd.m3u8"
+    ],
+    "江苏卫视": [
+      "http://ivi.bupt.edu.cn/hls/jiangsuhd.m3u8"
+    ],
+    "北京卫视": [
+      "http://ivi.bupt.edu.cn/hls/beijinghd.m3u8"
+    ],
+    "东方卫视": [
+      "http://ivi.bupt.edu.cn/hls/dongfanghd.m3u8"
+    ],
+    "安徽卫视": [
+      "http://ivi.bupt.edu.cn/hls/anhuihd.m3u8"
+    ],
+    "山东卫视": [
+      "http://ivi.bupt.edu.cn/hls/shandonghd.m3u8"
+    ]
+  }
+}
